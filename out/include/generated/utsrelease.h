@@ -1,0 +1,1 @@
+#define UTS_RELEASE "3.18.71Cobalt V2.0-g780999a5dc14"

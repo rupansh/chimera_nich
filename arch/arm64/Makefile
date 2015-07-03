@@ -66,6 +66,12 @@ core-$(CONFIG_KVM) += arch/arm64/kvm/
 core-$(CONFIG_XEN) += arch/arm64/xen/
 core-$(CONFIG_CRYPTO) += arch/arm64/crypto/
 core-$(CONFIG_FORCE_FAST_CHARGE) += arch/arm64/fastcharge/
+core-$(CONFIG_INTELLI_PLUG)	+= arch/arm64/hotplug/INTELLIPLUG/
+core-$(CONFIG_ALUCARD_HOTPLUG)	+= arch/arm64/hotplug/ALUCARD/
+core-$(CONFIG_BRICKED_HOTPLUG)	+= arch/arm64/hotplug/BRICKED/
+core-$(CONFIG_MSM_HOTPLUG)	+= arch/arm64/hotplug/MSMHOTPLUG/
+core-$(CONFIG_MSM_SLEEPER)	+= arch/arm64/hotplug/MSMSLEEPER/
+core-$(CONFIG_THUNDERPLUG_CONTROL)	+= arch/arm64/hotplug/THUNDERPLUG/
 libs-y		:= arch/arm64/lib/ $(libs-y)
 libs-$(CONFIG_EFI_STUB) += drivers/firmware/efi/libstub/
 
