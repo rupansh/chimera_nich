@@ -498,6 +498,7 @@ static u32 igc_limited[IGC_LUT_ENTRIES] = {
 static struct mdp_pp_driver_ops pp_driver_ops;
 static struct mdp_pp_feature_ops *pp_ops;
 
+
 static DEFINE_MUTEX(mdss_pp_mutex);
 static struct mdss_pp_res_type *mdss_pp_res;
 
@@ -2737,6 +2738,8 @@ int mdss_mdp_pp_resume(struct msm_fb_data_type *mfd)
 					& MDP_PP_OPS_DISABLE))
 			mdss_pp_res->gamut_disp_cfg[disp_num].flags |=
 				MDP_PP_OPS_WRITE;
+
+	
 	}
 	if (pp_sts.pgc_sts & PP_STS_ENABLE) {
 		flags |= PP_FLAGS_DIRTY_PGC;
