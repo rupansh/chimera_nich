@@ -34,6 +34,18 @@
 #include <linux/fs.h>
 #include <asm/uaccess.h>
 
+#if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE) && \
+	 !defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE)
+#include <linux/input/doubletap2wake.h>
+#else if defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE) && \
+	 !defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE)
+#include <linux/input/sweep2wake.h>
+#else if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE) && \
+	 defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE)
+#include <linux/input/doubletap2wake.h>
+#include <linux/input/sweep2wake.h>
+#endif
+
 #if CTP_CHARGER_DETECT
 #include <linux/power_supply.h>
 #endif
@@ -672,6 +684,7 @@ static int ft5x06_ts_resume(struct device *dev)
 			dev_err(dev, "power on failed");
 			return err;
 		}
+
 	}
 
 	if (gpio_is_valid(data->pdata->reset_gpio)) {
@@ -748,9 +761,31 @@ static int fb_notifier_callback(struct notifier_block *self,
 		blank = evdata->data;
 		if (*blank == FB_BLANK_UNBLANK
 				|| *blank == FB_BLANK_NORMAL
-				|| *blank == FB_BLANK_VSYNC_SUSPEND)
+				|| *blank == FB_BLANK_VSYNC_SUSPEND) {
+			#if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE) && \
+				!defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE)
+					dt2w_scr_suspended = false;
+			#else if defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE) && \
+				!defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE)
+					s2w_scr_suspended = false;
+			#else if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE) && \
+				defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE)
+					dt2w_scr_suspended = false;
+					s2w_scr_suspended = false;
+			#endif
 			schedule_work(&ft5x06_data->fb_notify_work);
-		else if (*blank == FB_BLANK_POWERDOWN) {
+		} else if (*blank == FB_BLANK_POWERDOWN) {
+			#if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE) && \
+				!defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE)
+					dt2w_scr_suspended = true;
+			#else if defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE) && \
+				!defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE)
+					s2w_scr_suspended = true;
+			#else if defined(CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE) && \
+				defined(CONFIG_TOUCHSCREEN_SWEEP2WAKE)
+					dt2w_scr_suspended = true;
+					s2w_scr_suspended = true;
+			#endif
 			flush_work(&ft5x06_data->fb_notify_work);
 			ft5x06_ts_suspend(&ft5x06_data->client->dev);
 		}
