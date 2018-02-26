@@ -9,11 +9,11 @@ do.devicecheck=1
 do.modules=1
 do.cleanup=1
 do.cleanuponabort=0
-device.name1=mido
-device.name2=redmi note 4
-device.name3=Rendi Nude 4
-device.name4=Redmi Note 4
-device.name5=Redmi Note 4x
+device.name1=land
+device.name2=Redmi 3s
+device.name3=Redmi 3s Prime
+device.name4=Redmi 3s Pro
+device.name5=Redmi 3x
 } # end properties
 
 # shell variables
