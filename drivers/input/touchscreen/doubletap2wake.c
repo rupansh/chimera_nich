@@ -61,6 +61,10 @@ MODULE_LICENSE("GPLv3");
 #define DT2W_TIME		400
 #define DT2W_RADIUS		200
 
+#define DT2W_OFF 0
+#define DT2W_ON 1
+#define DT2W_FS 2
+
 /* Resources */
 int dt2w_switch = DT2W_DEFAULT;
 bool dt2w_scr_suspended = false;
