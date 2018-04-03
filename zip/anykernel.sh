@@ -4,7 +4,7 @@
 ## AnyKernel setup
 # begin properties
 properties() {
-kernel.string=lordarcadius @ xda-developers
+kernel.string=rupanshji @ rendi3slul_xda-developers
 do.devicecheck=1
 do.modules=1
 do.cleanup=1
