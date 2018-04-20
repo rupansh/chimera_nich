@@ -140,6 +140,14 @@ config CPU_FREQ_DEFAULT_GOV_DARKNESSV5
         select CPU_FREQ_GOV_DARKNESSV5
         help
 
+config CPU_FREQ_DEFAULT_GOV_LISI
+	bool "lisi"
+	select CPU_FREQ_GOV_LISI
+	help
+	  Use the CPUFreq governor 'lisi' as default. This allows
+	  you to get a full dynamic cpu frequency and latency-sensitive
+	  loads
+
 config CPU_FREQ_DEFAULT_GOV_SCHED
 	bool "sched"
 	select CPU_FREQ_GOV_INTERACTIVE
@@ -228,8 +236,19 @@ config CPU_FREQ_GOV_INTERACTIVE
 	  If in doubt, say N.
 
 config CPU_FREQ_GOV_ALUCARD
- 	tristate "'alucard' cpufreq governor"
+        tristate "'alucard' cpufreq governor"
 	depends on CPU_FREQ
+
+config CPU_FREQ_GOV_LISI
+	bool "'lisi' cpufreq policy governor"
+	help
+	  'lisi' - This driver adds a dynamic cpufreq policy governor
+	  designed for latency-sensitive workloads.
+
+	  The governor does a periodic polling and
+	  changes frequency based on the CPU utilization.
+
+	  If in doubt, say N.
 
 config CPU_FREQ_GOV_DARKNESS
 	tristate "'darkness' cpufreq governor"
