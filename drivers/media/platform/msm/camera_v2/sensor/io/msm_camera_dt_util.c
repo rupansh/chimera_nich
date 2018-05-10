@@ -1220,6 +1220,127 @@ static int msm_camera_pinctrl_init(struct msm_camera_power_ctrl_t *ctrl)
 	return 0;
 }
 
+int msm_cam_sensor_handle_reg_gpio(int seq_val,
+	struct msm_camera_gpio_conf *gconf, int val) {
+
+	int gpio_offset = -1;
+
+	if (!gconf) {
+		pr_err("ERR:%s: Input Parameters are not proper\n", __func__);
+		return -EINVAL;
+	}
+	CDBG("%s: %d Seq val: %d, config: %d", __func__, __LINE__,
+		seq_val, val);
+
+	switch (seq_val) {
+	case CAM_VDIG:
+		gpio_offset = SENSOR_GPIO_VDIG;
+		break;
+
+	case CAM_VIO:
+		gpio_offset = SENSOR_GPIO_VIO;
+		break;
+
+	case CAM_VANA:
+		gpio_offset = SENSOR_GPIO_VANA;
+		break;
+
+	case CAM_VAF:
+		gpio_offset = SENSOR_GPIO_VAF;
+		break;
+
+	case CAM_V_CUSTOM1:
+		gpio_offset = SENSOR_GPIO_CUSTOM1;
+		break;
+
+	case CAM_V_CUSTOM2:
+		gpio_offset = SENSOR_GPIO_CUSTOM2;
+		break;
+
+	default:
+		pr_err("%s:%d Invalid VREG seq val %d\n", __func__,
+			__LINE__, seq_val);
+		return -EINVAL;
+	}
+
+	CDBG("%s: %d GPIO offset: %d, seq_val: %d\n", __func__, __LINE__,
+		gpio_offset, seq_val);
+
+	if (gconf->gpio_num_info->valid[gpio_offset] == 1) {
+		gpio_set_value_cansleep(
+			gconf->gpio_num_info->gpio_num
+			[gpio_offset], val);
+	}
+	return 0;
+}
+
+int32_t msm_sensor_driver_get_gpio_data(
+	struct msm_camera_gpio_conf **gpio_conf,
+	struct device_node *of_node)
+{
+	int32_t                      rc = 0, i = 0;
+	uint16_t                    *gpio_array = NULL;
+	int16_t                     gpio_array_size = 0;
+	struct msm_camera_gpio_conf *gconf = NULL;
+
+	/* Validate input parameters */
+	if (!of_node) {
+		pr_err("failed: invalid param of_node %pK", of_node);
+		return -EINVAL;
+	}
+
+	gpio_array_size = of_gpio_count(of_node);
+	CDBG("gpio count %d\n", gpio_array_size);
+	if (gpio_array_size <= 0)
+		return -ENODEV;
+
+	gconf = kzalloc(sizeof(struct msm_camera_gpio_conf),
+		GFP_KERNEL);
+	if (!gconf)
+		return -ENOMEM;
+
+	*gpio_conf = gconf;
+
+	gpio_array = kcalloc(gpio_array_size, sizeof(uint16_t), GFP_KERNEL);
+	if (!gpio_array)
+		goto FREE_GPIO_CONF;
+
+	for (i = 0; i < gpio_array_size; i++) {
+		gpio_array[i] = of_get_gpio(of_node, i);
+		CDBG("gpio_array[%d] = %d", i, gpio_array[i]);
+	}
+
+	rc = msm_camera_get_dt_gpio_req_tbl(of_node, gconf, gpio_array,
+		gpio_array_size);
+	if (rc < 0) {
+		pr_err("failed in msm_camera_get_dt_gpio_req_tbl\n");
+		goto FREE_GPIO_CONF;
+	}
+
+	rc = msm_camera_get_dt_gpio_set_tbl(of_node, gconf,
+		gpio_array, gpio_array_size);
+	if (rc < 0) {
+		pr_err("%s failed %d\n", __func__, __LINE__);
+		goto FREE_GPIO_REQ_TBL;
+	}
+
+	rc = msm_camera_init_gpio_pin_tbl(of_node, gconf, gpio_array,
+		gpio_array_size);
+	if (rc < 0) {
+		pr_err("failed in msm_camera_init_gpio_pin_tbl\n");
+		goto FREE_GPIO_REQ_TBL;
+	}
+	kfree(gpio_array);
+	return rc;
+FREE_GPIO_REQ_TBL:
+	kfree(gconf->cam_gpio_req_tbl);
+FREE_GPIO_CONF:
+	kfree(gconf);
+	kfree(gpio_array);
+	*gpio_conf = NULL;
+	return rc;
+}
+
 int msm_camera_power_up(struct msm_camera_power_ctrl_t *ctrl,
 	enum msm_camera_device_type_t device_type,
 	struct msm_camera_i2c_client *sensor_i2c_client)
