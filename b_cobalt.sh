@@ -31,7 +31,7 @@ echo -e "***********************************************$nocol"
 LC_ALL=C date +%Y-%m-%d
 kernel_dir=$PWD
 build=$kernel_dir/out
-export CROSS_COMPILE="/home/cobalt/cobalt/toolchain/sm/aarch64-linux-android-"
+export CROSS_COMPILE="/home/cobalt/cobalt/toolchain/sm/bin/aarch64-linux-android-"
 kernel="Chimera"
 version="3.0"
 vendor="xiaomi"
