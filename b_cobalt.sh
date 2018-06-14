@@ -25,27 +25,27 @@ White='\e[0;37m'        # White
 
 
 echo -e "$White***********************************************"
-echo "         Compiling Chimera Kernel             "
+echo "         Compiling Cobalt Kernel             "
 echo -e "***********************************************$nocol"
 
 LC_ALL=C date +%Y-%m-%d
 kernel_dir=$PWD
 build=$kernel_dir/out
-export CROSS_COMPILE="/home/ubuntu/aarch64-linux-android-4.9-kernel/bin/aarch64-linux-android-"
+export CROSS_COMPILE="/home/cobalt/cobalt/toolchain/sm/aarch64-linux-android-"
 kernel="Chimera"
 version="3.0"
 vendor="xiaomi"
 device="land"
 zip=zip
 date=`date +"%Y%m%d-%H%M"`
-config=land_defconfig
+config=cobalt_land_defconfig
 kerneltype="Image.gz-dtb"
 jobcount="-j$(grep -c ^processor /proc/cpuinfo)"
 #modules_dir=$kernel_dir/"$zip"/system/lib/modules
 modules_dir=$kernel_dir/"$zip"/modules
 zip_name="$kernel"-"$version"-"$date"-"$device".zip
-export KBUILD_BUILD_USER=rupansh
-export KBUILD_BUILD_HOST=rendi3s_lel
+export KBUILD_BUILD_USER=cobalt
+export KBUILD_BUILD_HOST=Redmi3S
 
 echo "Checking for build..."
 if [ -d arch/arm64/boot/"$kerneltype" ]; then
