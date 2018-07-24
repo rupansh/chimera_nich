@@ -142,7 +142,7 @@
 			enable-method = "psci";
 			qcom,acc = <&acc4>;
 			qcom,limits-info = <&mitigation_profile4>;
-			sched-energy-costs = <&CPU_COST_0 &CLUSTER_COST_0>;
+			sched-energy-costs = <&CPU_COST_1 &CLUSTER_COST_1>;
 			next-level-cache = <&L2_0>;
 			L2_0: l2-cache {
 			      compatible = "arm,arch-cache";
@@ -167,7 +167,7 @@
 			enable-method = "psci";
 			qcom,acc = <&acc5>;
 			qcom,limits-info = <&mitigation_profile4>;
-			sched-energy-costs = <&CPU_COST_0 &CLUSTER_COST_0>;
+			sched-energy-costs = <&CPU_COST_1 &CLUSTER_COST_1>;
 			next-level-cache = <&L2_0>;
 			L1_I_1: l1-icache {
 				compatible = "arm,arch-cache";
@@ -186,7 +186,7 @@
 			enable-method = "psci";
 			qcom,acc = <&acc6>;
 			qcom,limits-info = <&mitigation_profile4>;
-			sched-energy-costs = <&CPU_COST_0 &CLUSTER_COST_0>;
+			sched-energy-costs = <&CPU_COST_1 &CLUSTER_COST_1>;
 			next-level-cache = <&L2_0>;
 			L1_I_2: l1-icache {
 				compatible = "arm,arch-cache";
@@ -205,7 +205,7 @@
 			enable-method = "psci";
 			qcom,acc = <&acc7>;
 			qcom,limits-info = <&mitigation_profile4>;
-			sched-energy-costs = <&CPU_COST_0 &CLUSTER_COST_0>;
+			sched-energy-costs = <&CPU_COST_1 &CLUSTER_COST_1>;
 			next-level-cache = <&L2_0>;
 			L1_I_3: l1-icache {
 				compatible = "arm,arch-cache";
@@ -219,13 +219,28 @@
 		energy-costs {
 			CPU_COST_0: core-cost0 {
 				busy-cost-data = <
-					113    65
-					226    104
-					269    138
-					311    154
-					350    206
-					355    219
-					360    283
+					113    65		// 960 MHz
+					226    104		// 1094 MHz
+					269    138		// 1209 MHz
+					311    154		// 1248 MHz
+					350    206		// 1344 MHz
+					355    219		// 1401 MHz
+					360    283		// 1497 MHz 
+				>;
+				idle-cost-data = <
+			  		23
+					23
+					0
+					0
+				>;
+			};
+			CPU_COST_1: core-cost1 {
+				busy-cost-data = <
+					101    47		// 768 MHz
+					110    59		// 902 MHz
+					199    77		// 998 MHz
+					226    104		// 1094 MHz
+					269    138		// 1209 MHz
 				>;
 				idle-cost-data = <
 			  		23
@@ -236,13 +251,28 @@
 			};
 			CLUSTER_COST_0: cluster-cost0 {
 				busy-cost-data = <
-					113    23
-					226    30
-					269    36
-					311    39
-					350    50
-					355    53
-					360    55
+					113    23		// 960 MHz
+					226    30		// 1094 MHz
+					269    36		// 1209 MHz	
+					311    39		// 1248 MHz
+					350    50		// 1344 MHz
+					355    53		// 1401 MHz
+					360    55		// 1497 MHz
+				>;
+				idle-cost-data = <
+					14
+					14
+					14
+					0
+				>;
+			};
+			CLUSTER_COST_1: cluster-cost1 {
+				busy-cost-data = <
+					101    11		// 768 MHz	
+					110    16		// 902 MHz	
+					199    25		// 998 MHz
+					226    30		// 1094 MHz
+					269    36		// 1209 MHz
 				>;
 				idle-cost-data = <
 					14
