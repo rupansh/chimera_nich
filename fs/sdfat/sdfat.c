@@ -4459,12 +4459,15 @@ enum {
 	Opt_discard,
 	Opt_fs,
 	Opt_adj_req,
+<<<<<<< HEAD
 #ifdef CONFIG_SDFAT_USE_FOR_VFAT
 	Opt_shortname_lower,
 	Opt_shortname_win95,
 	Opt_shortname_winnt,
 	Opt_shortname_mixed,
 #endif /* CONFIG_SDFAT_USE_FOR_VFAT */
+=======
+>>>>>>> e950c5abbfde43e1005e42c90a0f59582e626497
 };
 
 static const match_table_t sdfat_tokens = {
@@ -4493,12 +4496,15 @@ static const match_table_t sdfat_tokens = {
 	{Opt_discard, "discard"},
 	{Opt_fs, "fs=%s"},
 	{Opt_adj_req, "adj_req"},
+<<<<<<< HEAD
 #ifdef CONFIG_SDFAT_USE_FOR_VFAT
 	{Opt_shortname_lower, "shortname=lower"},
 	{Opt_shortname_win95, "shortname=win95"},
 	{Opt_shortname_winnt, "shortname=winnt"},
 	{Opt_shortname_mixed, "shortname=mixed"},
 #endif /* CONFIG_SDFAT_USE_FOR_VFAT */
+=======
+>>>>>>> e950c5abbfde43e1005e42c90a0f59582e626497
 	{Opt_err, NULL}
 };
 
@@ -4665,6 +4671,7 @@ static int parse_options(struct super_block *sb, char *options, int silent,
 			IMSG("adjust request config is not enabled. ignore\n");
 #endif
 			break;
+<<<<<<< HEAD
 #ifdef CONFIG_SDFAT_USE_FOR_VFAT
 		case Opt_shortname_lower:
 		case Opt_shortname_win95:
@@ -4673,6 +4680,8 @@ static int parse_options(struct super_block *sb, char *options, int silent,
 		case Opt_shortname_winnt:
 			break;
 #endif /* CONFIG_SDFAT_USE_FOR_VFAT */
+=======
+>>>>>>> e950c5abbfde43e1005e42c90a0f59582e626497
 		default:
 			if (!silent) {
 				sdfat_msg(sb, KERN_ERR,
@@ -4998,6 +5007,7 @@ static struct file_system_type sdfat_fs_type = {
 	.fs_flags    = FS_REQUIRES_DEV,
 };
 
+<<<<<<< HEAD
 #ifdef CONFIG_SDFAT_USE_FOR_EXFAT
 static struct file_system_type exfat_fs_type = {
 	.owner       = THIS_MODULE,
@@ -5026,6 +5036,8 @@ static struct file_system_type vfat_fs_type = {
 };
 #endif /* CONFIG_SDFAT_USE_FOR_VFAT */
 
+=======
+>>>>>>> e950c5abbfde43e1005e42c90a0f59582e626497
 static int __init init_sdfat_fs(void)
 {
 	int err;
@@ -5064,6 +5076,7 @@ static int __init init_sdfat_fs(void)
 		goto error;
 	}
 
+<<<<<<< HEAD
 #ifdef CONFIG_SDFAT_USE_FOR_EXFAT
 	err = register_filesystem(&exfat_fs_type);
 	if (err) {
@@ -5080,6 +5093,8 @@ static int __init init_sdfat_fs(void)
 	}
 #endif /* CONFIG_SDFAT_USE_FOR_VFAT */
 
+=======
+>>>>>>> e950c5abbfde43e1005e42c90a0f59582e626497
 	return 0;
 error:
 	sdfat_statistics_uninit();
@@ -5109,12 +5124,16 @@ static void __exit exit_sdfat_fs(void)
 
 	sdfat_destroy_inodecache();
 	unregister_filesystem(&sdfat_fs_type);
+<<<<<<< HEAD
 #ifdef CONFIG_SDFAT_USE_FOR_EXFAT
 	unregister_filesystem(&exfat_fs_type);
 #endif /* CONFIG_SDFAT_USE_FOR_EXFAT */
 #ifdef CONFIG_SDFAT_USE_FOR_VFAT
 	unregister_filesystem(&vfat_fs_type);
 #endif /* CONFIG_SDFAT_USE_FOR_VFAT */
+=======
+
+>>>>>>> e950c5abbfde43e1005e42c90a0f59582e626497
 	fsapi_shutdown();
 }
 
